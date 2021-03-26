@@ -1,10 +1,8 @@
-use anyhow::{bail, Result};
-use nix::unistd::{fork, ForkResult};
+use anyhow::Result;
 use rand::seq::SliceRandom;
 use rand::thread_rng;
 use std::env;
-use std::os::unix::process::CommandExt;
-use std::{path::PathBuf, process::Command};
+use std::path::PathBuf;
 use structopt::StructOpt;
 use walkdir::WalkDir;
 
@@ -15,8 +13,6 @@ struct Cli {
 
     #[structopt(default_value = "1")]
     count: i32,
-    // #[structopt(short = "p", long = "player", default_value = "mpv")]
-    // player: String,
 }
 
 fn main() -> Result<()> {
@@ -35,17 +31,6 @@ fn main() -> Result<()> {
     };
 
     for i in 0..count {
-        // if let Ok(ForkResult::Child) = unsafe { fork() } {
-        //     if let Some(file) = files.get(files.len() - 1 - i as usize) {
-        //         let split: Vec<&str> = args.player.split(" ").collect();
-        //         Command::new(split[0])
-        //             .args(&split[1..])
-        //             .arg(file.to_str().unwrap())
-        //             .exec();
-        //     } else {
-        //         bail!("No files found!")
-        //     }
-        // }
         if let Some(file) = files.get(i as usize) {
             opener::open(file)?;
         }
